@@ -6,7 +6,7 @@
 		
 		<tab-control ref='tabcontrol1' class:='tab-control1' @tabclick='tabclick($event)' :titles="['流行','新款','精选']" v-show="imgonload_data_buer"></tab-control>
 			
-		<scroll @scroll='contentScroll' ref='scroll' @pullingUp='pullingUp'>
+		<scroll @scroll='contentScroll' ref='scroll' @pullingUp='pullingUp' class="homeScroll">
 					<home-swiper @imgonload='imgonload'></home-swiper>
 					<recommend-view :recommend='recommend'></recommend-view>
 					<feature></feature>
@@ -208,5 +208,9 @@
 		top: 44px;
 		left: 0px;
 		z-index: 10;
+	}
+	
+	.homeScroll{
+		height: calc(100vh - 93px);
 	}
 </style>

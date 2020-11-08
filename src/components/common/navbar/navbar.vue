@@ -20,7 +20,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.nav-bar{
 		display: flex;
 		line-height: 44px;
@@ -28,7 +28,7 @@
 		box-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
 	}
 	
-	.left .right{
+	.left ,.right{
 		width: 60px;
 	}
 	.center{
