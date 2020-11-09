@@ -50,7 +50,8 @@
 
 <style scoped>
 	.detailRate {
-	margin-bottom: 20px;
+	margin-bottom: 5px;
+	margin-top: 20px;
 	}
 	
 	.moreRate{

@@ -1,17 +1,21 @@
 <template>
 	<div class="detail">
-		<detailNavbar></detailNavbar>
+		<detailNavbar @titleclick='titleclick($event)'  :titleinfo='titleinfo'></detailNavbar>
+		<detailbottombar></detailbottombar>
+		
+		
 		<Scroll class='detailscroll' ref='bscroll' @scroll='contentScroll'>
 			<detailSwiper :banner='this.topImages'></detailSwiper>
 			<DetailBaseInfo :goods='goods'></DetailBaseInfo>
 			<DetailShopInfo :shop='shop'></DetailShopInfo>
 			<DetailGoodsInfo :detailInfo='detailInfo' @imgonload='imgonload'></DetailGoodsInfo>
-			<DetailParamInfo :paramInfo='paramInfo'></DetailParamInfo>
-			<detailRate :rate='rate'></detailRate>
-			<GoodsList :goods='recommend'></GoodsList>
-
+			<DetailParamInfo :paramInfo='paramInfo' ref='ParamInfo'></DetailParamInfo>
+			<detailRate :rate='rate' ref='rate'></detailRate>
+			<GoodsList :goods='recommend' ref='recommend'></GoodsList>
 
 		</Scroll>
+		
+		
 	</div>
 </template>
 
@@ -24,6 +28,8 @@
 	import DetailParamInfo from './childComps/DetailParamInfo.vue'
 	import detailRate from './childComps/detailRate.vue'
 	import GoodsList from '../../components/content/goods/GoodsList.vue'
+	import detailbottombar from './childComps/detailbottombar.vue'
+
 
 	import {
 		getdetail,
@@ -51,6 +57,11 @@
 				recommend: [],
 				//刷新一次的判断数据
 				ibm:false,
+				//锚点
+				titleinfo:0,
+				ParamInfo_height:0,
+				rate_height:0,
+				recommend_height:0
 			}
 		},
 		components: {
@@ -62,14 +73,24 @@
 			DetailGoodsInfo,
 			DetailParamInfo,
 			detailRate,
-			GoodsList
+			GoodsList,
+			detailbottombar
 		},
 		methods: {
 			//计算滚动高度
 			imgonload() {
 				this.$refs.bscroll.Bscroll.refresh()
+				
+				
+				
+				this.ParamInfo_height = -this.$refs.ParamInfo.$el.offsetTop
+				this.rate_height = -this.$refs.rate.$el.offsetTop 
+				this.recommend_height = -this.$refs.recommend.$el.offsetTop 
 			},
 			contentScroll(position) {
+				this.ParamInfo_height = -this.$refs.ParamInfo.$el.offsetTop
+				this.rate_height = -this.$refs.rate.$el.offsetTop 
+				this.recommend_height = -this.$refs.recommend.$el.offsetTop  
 				// console.log(position)
 				if (-position.y > 1500) {
 					if (!this.ibm) {
@@ -77,7 +98,31 @@
 						this.ibm = true
 						console.log('刷一次')
 					}
-
+				}
+				
+				if(-position.y < -this.ParamInfo_height){
+					this.titleinfo = 0
+				} else if (-position.y < -this.rate_height && -position.y > -this.ParamInfo_height){
+					this.titleinfo = 1
+				} else if( -position.y < -this.recommend_height && -position.y >= -this.rate_height){
+					this.titleinfo = 2
+				}else if(-position.y > -this.recommend_height){
+					this.titleinfo = 3
+				}
+			},
+			titleclick(index){
+				console.log(index)
+				this.titleinfo = index
+				
+				if(index == 0){
+					console.log('跳转')
+					this.$refs.bscroll.Bscroll.scrollTo(0,0,300)
+				} else if(index == 1){
+					this.$refs.bscroll.Bscroll.scrollTo(0,this.ParamInfo_height,300)
+				} else if(index == 2){
+					this.$refs.bscroll.Bscroll.scrollTo(0,this.rate_height,300)
+				} else if( index == 3){
+					this.$refs.bscroll.Bscroll.scrollTo(0,this.recommend_height,300)
 				}
 			}
 		},
@@ -130,7 +175,7 @@
 	}
 
 	.detailscroll {
-		height: calc(100vh - 48.5px);
+		height: calc(100vh - 97.5px);
 		/* height: 300px; */
 	}
 </style>

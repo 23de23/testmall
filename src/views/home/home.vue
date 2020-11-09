@@ -172,8 +172,10 @@
 			// if(imgonload_data){
 			// console.log(this.$refs.tabcontrol.$el.offsetTop)
 			// }
-		}
-
+		},
+		activated(){
+			this.$refs.scroll.Bscroll.refresh()
+			}
 	}
 </script>
 

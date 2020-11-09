@@ -23,15 +23,27 @@
 			clickindex:0
 			}
 		},
+		props:{
+			titleinfo:{
+				type:Number,
+				default:0
+			}
+		},
 		components:{
 			navbar
 		},
 		methods:{
 			clickitem(index){
 				this.clickindex = index
+				this.$emit('titleclick',index)
 			},
 			backimg(){
 				this.$router.go(-1)
+			}
+		},
+		watch:{
+			titleinfo(newd,old){
+				this.clickindex=newd
 			}
 		}
 		

@@ -28,5 +28,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-around;
+		margin-top: 30px;
 	}
 </style>
