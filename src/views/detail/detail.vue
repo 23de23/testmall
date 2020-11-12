@@ -1,8 +1,8 @@
 <template>
 	<div class="detail">
 		<detailNavbar @titleclick='titleclick($event)'  :titleinfo='titleinfo'></detailNavbar>
-		<detailbottombar></detailbottombar>
-		
+		<detailbottombar @addshopcar='addshopcar'></detailbottombar>
+		<backtop v-show="isShowBackTop" @click.native="backClick" ></backtop>
 		
 		<Scroll class='detailscroll' ref='bscroll' @scroll='contentScroll'>
 			<detailSwiper :banner='this.topImages'></detailSwiper>
@@ -29,6 +29,7 @@
 	import detailRate from './childComps/detailRate.vue'
 	import GoodsList from '../../components/content/goods/GoodsList.vue'
 	import detailbottombar from './childComps/detailbottombar.vue'
+	import backtop from '../../components/content/backtop/backtop.vue'
 
 
 	import {
@@ -61,7 +62,9 @@
 				titleinfo:0,
 				ParamInfo_height:0,
 				rate_height:0,
-				recommend_height:0
+				recommend_height:0,
+				//返回顶部
+				isShowBackTop:false
 			}
 		},
 		components: {
@@ -74,7 +77,8 @@
 			DetailParamInfo,
 			detailRate,
 			GoodsList,
-			detailbottombar
+			detailbottombar,
+			backtop
 		},
 		methods: {
 			//计算滚动高度
@@ -100,6 +104,9 @@
 					}
 				}
 				
+				//回到顶部
+				this.isShowBackTop = -position.y > 1000
+				
 				if(-position.y < -this.ParamInfo_height){
 					this.titleinfo = 0
 				} else if (-position.y < -this.rate_height && -position.y > -this.ParamInfo_height){
@@ -124,6 +131,20 @@
 				} else if( index == 3){
 					this.$refs.bscroll.Bscroll.scrollTo(0,this.recommend_height,300)
 				}
+			},
+			backClick(){
+				this.$refs.bscroll.Bscroll.scrollTo(0,0,300)
+			},
+			//加入购物车
+			addshopcar(){
+				const cardata = {}
+				cardata.desc = this.goods.desc
+				cardata.price = this.goods.realPrice
+				cardata.id = this.id
+				cardata.img = this.topImages[0]
+				cardata.title = this.goods.title
+				cardata.select = true
+				this.$store.commit('addshopcar',cardata)
 			}
 		},
 		created() {

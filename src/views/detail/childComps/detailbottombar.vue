@@ -11,7 +11,7 @@
 			<img src="~assets/img/detail/detail_bottom_06.jpg" v-else>
 			<div>收藏</div>
 		</div>
-		<div class="detailbottombar_car">加入购物车</div>
+		<div class="detailbottombar_car"  @click="addshopcar">加入购物车</div>
 		<div class="detailbottombar_buy">购买</div>
 	</div>
 </template>
@@ -27,6 +27,9 @@
 		methods:{
 			shoucang(){
 				this.dianji = ! this.dianji
+			},
+			addshopcar(){
+				this.$emit('addshopcar')
 			}
 		}
 	}
@@ -91,7 +94,7 @@
 		font-size: 14px;
 		float: left;
 		background-color: gold;
-		width: 35%;
+		width: 30%;
 	}
 
 	.detailbottombar_buy {
