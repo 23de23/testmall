@@ -145,6 +145,7 @@
 				cardata.title = this.goods.title
 				cardata.select = true
 				this.$store.commit('addshopcar',cardata)
+				alert('加入购物车成功')
 			}
 		},
 		created() {
